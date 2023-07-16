@@ -18,7 +18,9 @@
 
 github
 
-```git clone --depth=1 https://github.com/zipated/Elysian-Realm-plugin.git ./plugins/Elysian-Realm-plugin```
+```shell
+git clone --depth=1 https://github.com/zipated/Elysian-Realm-plugin.git ./plugins/Elysian-Realm-plugin
+```
 
 启动后使用```#乐土攻略更新```获取攻略图片
 
