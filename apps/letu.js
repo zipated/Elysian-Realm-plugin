@@ -26,11 +26,28 @@ export default class letu extends plugin {
             return false
         }
         let char = alias.get(charName)
-
+        // 嗯写
         if (fs.existsSync(`${this.path}/${char}.jpg`)) {
             await this.e.reply(segment.image(`${this.path}/${char}.jpg`))
             return
         }
+        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
+            await this.e.reply(segment.image(`${this.path}/${char}.jpeg`))
+            return
+        }
+        if (fs.existsSync(`${this.path}/${char}.png`)) {
+            await this.e.reply(segment.image(`${this.path}/${char}.png`))
+            return
+        }
+        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
+            await this.e.reply(segment.image(`${this.path}/${char}.gif`))
+            return
+        }
+        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
+            await this.e.reply(segment.image(`${this.path}/${char}.webp`))
+            return
+        }
+
         this.e.reply(`找不到攻略图哦，试试[#更新乐土攻略]？`)
         return true
     }
