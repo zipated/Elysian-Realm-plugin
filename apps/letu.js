@@ -11,7 +11,7 @@ export default class letu extends plugin {
             priority: -100,
             rule: [
                 {
-                    reg: "^#*(.+)乐土攻略$",
+                    reg: "^#*(.+)乐土攻略(\d)?$",
                     fnc: 'strategy'
                 }
             ]
