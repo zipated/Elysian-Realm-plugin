@@ -27,12 +27,12 @@ export class Update extends plugin {
       priority: -101,
       rule: [
         {
-          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?(强制)?(更新乐土攻略|乐土攻略更新)(ghproxy)?$`,  //留个强制好了（
+          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?更新乐土攻略|乐土攻略(强制)?更新)(ghproxy)?$`,  //留个强制好了（
           fnc: 'updateRes',
           desc: '【#管理】更新素材'
         },
         {
-          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?(强制)?(更新乐土攻略插件|乐土攻略插件(强制)?更新)(ghproxy)?$`,  //这么写能行吗（
+          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?更新乐土攻略插件|乐土攻略插件(强制)?更新)(ghproxy)?$`,  //  ,> <,
           fnc: 'update',
           desc: '【#管理】插件更新'
         }
@@ -229,6 +229,20 @@ export class Update extends plugin {
     }
 
     await this.reply([errMsg, stdout])
+  }
+
+  /**
+   * 获取上次提交的commitId
+   * @param {string} plugin 插件名称
+   * @returns
+   */
+  async getcommitId (plugin = '') {
+    let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`
+
+    let commitId = await execSync(cm, { encoding: 'utf-8' })
+    commitId = _.trim(commitId)
+
+    return commitId
   }
 
   /**
