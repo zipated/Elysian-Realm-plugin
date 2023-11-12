@@ -187,6 +187,79 @@ export class Update extends plugin {
   }
 
   /**
+   * 获取插件的更新日志
+   * @param {string} plugin 插件名称
+   * @returns
+   */
+  async getLog (plugin = '') {
+    let cm = `cd ./plugins/${plugin}/ && git log  -20 --oneline --pretty=format:"%h||[%cd]  %s" --date=format:"%m-%d %H:%M"`
+
+    let logAll
+    try {
+      logAll = await execSync(cm, { encoding: 'utf-8' })
+    } catch (error) {
+      logger.error(error.toString())
+      this.reply(error.toString())
+    }
+
+    if (!logAll) return false
+
+    logAll = logAll.split('\n')
+
+    let log = []
+    for (let str of logAll) {
+      str = str.split('||')
+      if (str[0] == this.oldCommitId) break
+      if (str[1].includes('Merge branch')) continue
+      log.push(str[1])
+    }
+    let line = log.length
+    log = log.join('\n\n')
+
+    if (log.length <= 0) return ''
+
+    // const end = '更多详细信息，请前往gitee查看\nhttps://gitee.com/hewang1an/StarRail-plugin'
+    const end = '.> <.'
+
+    log = await common.makeForwardMsg(this.e, [log, end], `Elysian-Realm-plugin更新日志，共${line}条`)
+
+    return log
+  }
+
+  /**
+   * 获取上次提交的commitId
+   * @param {string} plugin 插件名称
+   * @returns
+   */
+  async getcommitId (plugin = '') {
+    let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`
+
+    let commitId = await execSync(cm, { encoding: 'utf-8' })
+    commitId = _.trim(commitId)
+
+    return commitId
+  }
+
+  /**
+   * 获取本次更新插件的最后一次提交时间
+   * @param {string} plugin 插件名称
+   * @returns
+   */
+  async getTime (plugin = '') {
+    let cm = `cd ./plugins/${plugin}/ && git log -1 --oneline --pretty=format:"%cd" --date=format:"%m-%d %H:%M"`
+
+    let time = ''
+    try {
+      time = await execSync(cm, { encoding: 'utf-8' })
+      time = _.trim(time)
+    } catch (error) {
+      logger.error(error.toString())
+      time = '获取时间失败'
+    }
+    return time
+  }
+
+  /**
    * 处理更新失败的相关函数
    * @param {string} err
    * @param {string} stdout
@@ -229,20 +302,6 @@ export class Update extends plugin {
     }
 
     await this.reply([errMsg, stdout])
-  }
-
-  /**
-   * 获取上次提交的commitId
-   * @param {string} plugin 插件名称
-   * @returns
-   */
-  async getcommitId (plugin = '') {
-    let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`
-
-    let commitId = await execSync(cm, { encoding: 'utf-8' })
-    commitId = _.trim(commitId)
-
-    return commitId
   }
 
   /**
