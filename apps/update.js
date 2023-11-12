@@ -24,7 +24,7 @@ export class Update extends plugin {
     super({
       name: '攻略图更新',
       event: 'message',
-      priority: 1000,
+      priority: -101,
       rule: [
         {
           reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?(强制)?(更新乐土攻略|乐土攻略更新)(ghproxy)?$`,  //留个强制好了（
