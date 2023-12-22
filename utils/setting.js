@@ -24,7 +24,11 @@ class Setting {
     const files = fs.readdirSync(this.defPath).filter(file => file.endsWith('.yaml'))
     for (let file of files) {
       if (!fs.existsSync(`${this.configPath}${file}`)) {
-        fs.copyFileSync(`${this.defPath}${file}`, `${this.configPath}${file}`)
+        if (file = `alias.yaml`){
+          fs.writeFile(`${this.configPath}${file}`, '', (err) => {})
+        } else {
+          fs.copyFileSync(`${this.defPath}${file}`, `${this.configPath}${file}`)
+        }
       }
       this.watch(`${this.configPath}${file}`, file.replace('.yaml', ''), 'config')
     }
@@ -113,7 +117,11 @@ class Setting {
     else {
       try {
         if (!fs.existsSync(`${this.configPath}${app}.yaml`)) {
-          fs.copyFileSync(`${this.defPath}${app}.yaml`, `${this.configPath}${app}.yaml`)
+          if (file = `alias.yaml`){
+            fs.writeFile(`${this.configPath}${app}.yaml`, '', (err) => {})
+          } else {
+            fs.copyFileSync(`${this.defPath}${app}.yaml`, `${this.configPath}${app}.yaml`)
+          }
         }
       } catch (error) {
         logger.error(`乐土攻略插件缺失默认文件[${app}]${error}`)
