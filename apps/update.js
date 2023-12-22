@@ -73,7 +73,7 @@ export class Update extends plugin {
     } else {
       let url = 'https://github.com/MskTmi/ElysianRealm-Data.git'
       if (isGhproxy){
-        url = 'https://ghproxy.com/https://github.com/MskTmi/ElysianRealm-Data.git'
+        url = 'https://mirror.ghproxy.com/https://github.com/MskTmi/ElysianRealm-Data.git'
       }
       command = `git clone ${url} "${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data" --depth=1`
       e.reply('开始尝试安装乐土攻略图片，可能会需要一段时间，请耐心等待~')
