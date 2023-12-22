@@ -116,7 +116,7 @@ class Setting {
           fs.copyFileSync(`${this.defPath}${app}.yaml`, `${this.configPath}${app}.yaml`)
         }
       } catch (error) {
-        logger.error(`星铁插件缺失默认文件[${app}]${error}`)
+        logger.error(`乐土攻略插件缺失默认文件[${app}]${error}`)
       }
       return `${this.configPath}${app}.yaml`
     }
@@ -129,7 +129,7 @@ class Setting {
     const watcher = chokidar.watch(file)
     watcher.on('change', path => {
       delete this[type][app]
-      logger.mark(`[星铁插件][修改配置文件][${type}][${app}]`)
+      logger.mark(`[乐土攻略插件][修改配置文件][${type}][${app}]`)
       if (this[`change_${app}`]) {
         this[`change_${app}`]()
       }
