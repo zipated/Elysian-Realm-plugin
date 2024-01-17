@@ -305,19 +305,6 @@ export class Update extends plugin {
   }
 
   /**
-   * 异步执行git相关命令
-   * @param {string} cmd git命令
-   * @returns
-   */
-  async execSync (cmd) {
-    return new Promise((resolve, reject) => {
-      exec(cmd, { windowsHide: true }, (error, stdout, stderr) => {
-        resolve({ error, stdout, stderr })
-      })
-    })
-  }
-
-  /**
    * 检查git是否安装
    * @returns
    */
