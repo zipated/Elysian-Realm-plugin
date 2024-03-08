@@ -30,20 +30,16 @@ export default class letu extends plugin {
         if (fs.existsSync(`${this.path}/${char}.jpg`)) {
             await this.e.reply(segment.image(`${this.path}/${char}.jpg`))
             return
-        }
-        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
+        } else if (fs.existsSync(`${this.path}/${char}.jpeg`)) {
             await this.e.reply(segment.image(`${this.path}/${char}.jpeg`))
             return
-        }
-        if (fs.existsSync(`${this.path}/${char}.png`)) {
+        } else if (fs.existsSync(`${this.path}/${char}.png`)) {
             await this.e.reply(segment.image(`${this.path}/${char}.png`))
             return
-        }
-        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
+        } else if (fs.existsSync(`${this.path}/${char}.gif`)) {
             await this.e.reply(segment.image(`${this.path}/${char}.gif`))
             return
-        }
-        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
+        } else if (fs.existsSync(`${this.path}/${char}.webp`)) {
             await this.e.reply(segment.image(`${this.path}/${char}.webp`))
             return
         }
