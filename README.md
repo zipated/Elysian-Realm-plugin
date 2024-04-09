@@ -34,7 +34,7 @@ git clone --depth=1 https://github.com/zipated/Elysian-Realm-plugin.git ./plugin
 
 --------------------------------------------
 
-感谢：
+<details><summary>感谢：</summary>
 
 [hewang1an/StarRail-plugin](https://github.com/hewang1an/StarRail-plugin) (代码参考)
 
@@ -44,12 +44,13 @@ git clone --depth=1 https://github.com/zipated/Elysian-Realm-plugin.git ./plugin
 
 Bilibili [月光中心_official](https://space.bilibili.com/25289147)、[光芒子](https://space.bilibili.com/4059724)([米游社](https://www.miyoushe.com/bh3/accountCenter/postList?id=5625196)) 等参与攻略制作的大佬
 
-<details><summary>Yunzai-Bot</summary>
+<details><summary>Yunzai-Bots</summary>
 
-[Yunzai-Bot](https://gitee.com/Le-niao/Yunzai-Bot) (Le-niao)
+| [Yunzai-Bot](https://gitee.com/Le-niao/Yunzai-Bot) | Le-niao |
+| :----: | :---- |
+| [Miao-Yunzai](https://github.com/yoimiya-kokomi/Miao-Yunzai) | yoimiya-kokomi |
+| [TRSS-Yunzai](https://github.com/TimeRainStarSky/Yunzai) | TimeRainStarSky |
 
-[Miao-Yunzai](https://github.com/yoimiya-kokomi/Miao-Yunzai) (yoimiya-kokomi)
-
-[TRSS-Yunzai](https://github.com/TimeRainStarSky/Yunzai) (TimeRainStarSky)
+</details>
 
 </details>
