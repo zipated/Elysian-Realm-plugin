@@ -11,17 +11,17 @@ export default class letu extends plugin {
             priority: -100,
             rule: [
                 {
-                    reg: "^#*(.+)乐土攻略(2|3)?$",
+                    reg: "^#*(.+)?乐土(.+)?攻略(2|3)?$",
                     fnc: 'strategy'
                 }
             ]
         })
         this.path = './plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data'
-    };
+    }
 
     async strategy(e) {
         const messageText = e.msg
-        let charName = messageText.replace(/#|＃|崩坏3|bh3|崩3|崩崩崩|更新|乐土攻略/g, '')
+        let charName = messageText.replace(/#|＃|崩坏3|bh3|崩3|崩崩崩|更新|乐土|攻略/g, '')
         if (!charName) {
             return false
         }
