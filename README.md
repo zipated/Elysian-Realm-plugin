@@ -2,7 +2,7 @@
 
 适用于Yunzai([Miao-Yunzai](https://github.com/yoimiya-kokomi/Miao-Yunzai)、[TRSS-Yunzai](https://github.com/TimeRainStarSky/Yunzai))机器人的崩坏3乐土攻略机器人
 
-攻略图来自米游社[@催稿型光芒子](https://www.miyoushe.com/bh3/accountCenter/postList?id=5625196)
+攻略图来自米游社[月光中心official](https://www.miyoushe.com/bh3/accountCenter/postList?id=5625196)
 
 图片来自[MskTmi/ElysianRealm-Data](https://github.com/MskTmi/ElysianRealm-Data)
 
@@ -10,7 +10,7 @@
 
 * #人律乐土攻略<!-- 乐土睡觉攻略 -->
 
-* #更新乐土攻略 （仅主人可使用
+* #更新/重装乐土攻略(ghproxy) （仅主人可使用
 
 ## 安装方法
 
@@ -42,7 +42,7 @@ git clone --depth=1 https://github.com/zipated/Elysian-Realm-plugin.git ./plugin
 
 [MskTmi/Bh3-ElysianRealm-Strategy](https://github.com/MskTmi/Bh3-ElysianRealm-Strategy) （别名参考）
 
-Bilibili [月光中心_official](https://space.bilibili.com/25289147)、[光芒子](https://space.bilibili.com/4059724)([米游社](https://www.miyoushe.com/bh3/accountCenter/postList?id=5625196)) 等参与攻略制作的大佬
+Bilibili [月光中心_official](https://space.bilibili.com/25289147)([米游社](https://www.miyoushe.com/bh3/accountCenter/postList?id=5625196))<!-- 、[光芒子](https://space.bilibili.com/4059724)--> 等参与攻略制作的大佬
 
 <details><summary>Yunzai-Bots</summary>
 

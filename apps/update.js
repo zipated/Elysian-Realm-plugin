@@ -27,12 +27,12 @@ export class Update extends plugin {
       priority: -101,
       rule: [
         {
-          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?更新乐土攻略|乐土攻略(强制)?更新)(ghproxy)?$`,  //留个强制好了（
+          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))(ghproxy)?$`,
           fnc: 'updateRes',
           desc: '【#管理】更新素材'
         },
         {
-          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?更新乐土攻略插件|乐土攻略插件(强制)?更新)(ghproxy)?$`,  //  ,> <,
+          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?更新乐土攻略插件|乐土攻略插件(强制)?更新)$`,
           fnc: 'update',
           desc: '【#管理】插件更新'
         }
@@ -45,9 +45,21 @@ export class Update extends plugin {
       return true
     }
     let isForce = e.msg.includes('强制')
+    let isReinstall = e.msg.includes('重装')
     let isGhproxy = e.msg.includes('ghproxy')
     let command = ''
-    if (fs.existsSync(`${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/`)) {
+    let isInstalled = fs.existsSync(`${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/`)
+    if (isReinstall && isInstalled) {
+      try {
+        fs.rmSync(`${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data`, { recursive: true, force: true })
+        e.reply(`开始重新安装乐土攻略`)
+        isInstalled = false
+      } catch (err) {
+        e.reply(`乐土攻略重装失败:\n ${err.message}`)
+        return false
+      }
+    }
+    if (isInstalled) {
       e.reply('开始尝试更新，请耐心等待~')
       command = 'git pull'
       if (isForce) {
@@ -73,7 +85,7 @@ export class Update extends plugin {
     } else {
       let url = 'https://github.com/MskTmi/ElysianRealm-Data.git'
       if (isGhproxy){
-        url = 'https://mirror.ghproxy.com/https://github.com/MskTmi/ElysianRealm-Data.git'
+        url = 'https://ghfast.top/https://github.com/MskTmi/ElysianRealm-Data.git'
       }
       command = `git clone ${url} "${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data" --depth=1`
       e.reply('开始尝试安装乐土攻略图片，可能会需要一段时间，请耐心等待~')
