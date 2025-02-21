@@ -27,7 +27,7 @@ export class Update extends plugin {
       priority: -101,
       rule: [
         {
-          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))(ghproxy)?$`,
+          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))(.*)?$`,
           fnc: 'updateRes',
           desc: '【#管理】更新素材'
         },
@@ -46,7 +46,7 @@ export class Update extends plugin {
     }
     let isForce = e.msg.includes('强制')
     let isReinstall = e.msg.includes('重装')
-    let isGhproxy = e.msg.includes('ghproxy')
+    let ghproxy = e.msg.replace(/#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))/, '').trim()
     let command = ''
     let isInstalled = fs.existsSync(`${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/`)
     if (isReinstall && isInstalled) {
@@ -84,8 +84,12 @@ export class Update extends plugin {
       })
     } else {
       let url = 'https://github.com/MskTmi/ElysianRealm-Data.git'
-      if (isGhproxy){
-        url = 'https://ghfast.top/https://github.com/MskTmi/ElysianRealm-Data.git'
+      if (ghproxy){
+        if (e.msg === 'ghproxy') {
+          url = 'https://ghfast.top/https://github.com/MskTmi/ElysianRealm-Data.git'
+        } else {
+          url = ghproxy.endsWith('/') ? `${ghproxy}MskTmi/ElysianRealm-Data.git` : `${ghproxy}/MskTmi/ElysianRealm-Data.git`
+        }
       }
       command = `git clone ${url} "${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data" --depth=1`
       e.reply('开始尝试安装乐土攻略图片，可能会需要一段时间，请耐心等待~')

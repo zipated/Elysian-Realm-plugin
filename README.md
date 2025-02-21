@@ -8,9 +8,30 @@
 
 目前确定可用功能
 
-* #人律乐土攻略<!-- 乐土睡觉攻略 -->
+<details><summary>#人律乐土攻略<!-- 乐土睡觉攻略 --></summary>
 
-* #更新/重装乐土攻略(ghproxy) （仅主人可使用
+&ensp;&ensp;具体参考[alias.yaml](defSet/alias.yaml)
+
+</details>
+
+<details><summary>#更新/重装乐土攻略(ghproxy) （仅主人可使用</summary>
+
+&ensp;&ensp;ghproxy在未安装或重新安装乐土攻略时可用
+
+&ensp;&ensp;使用例：
+
+&ensp;&ensp;&ensp;- 使用<!-- 代码内提供的 -->ghproxy：
+
+```
+#更新乐土攻略ghproxy
+```
+
+&ensp;&ensp;&ensp;- 使用自定义的镜像代理地址：
+
+```
+#更新乐土攻略https://ghproxy.com/https://github.com
+```
+</details>
 
 ## 安装方法
 
@@ -19,10 +40,16 @@
 推荐使用git进行安装，方便后续升级，在Yunzai根目录内打开终端执行以下命令
 
 ```shell
+# 使用 github
 git clone --depth=1 https://github.com/zipated/Elysian-Realm-plugin.git ./plugins/Elysian-Realm-plugin
+
+# 使用 gitee
+git clone --depth=1 https://gitee.com/zipated/Elysian-Realm-plugin.git ./plugins/Elysian-Realm-plugin
 ```
 
 启动后使用```#更新乐土攻略```获取攻略图片 (若连接github不顺畅可以用```#更新乐土攻略ghproxy```使用ghproxy代理获取)
+
+
 
 ## 自行添加别名
 
