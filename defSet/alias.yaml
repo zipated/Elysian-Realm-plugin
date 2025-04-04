@@ -640,3 +640,15 @@ Human_AstralRing:
   - 人之律者3
   - 人律3
   - 爱律3
+
+# 8.2
+PeregrineSword:
+  - 一客逍游
+  - 素裳
+  # - 理素裳
+PeregrineSword_AstralRing:
+  - 一客逍游星环流
+  - 素裳星环流
+  - 一客逍游2
+  - 素裳2
+  # - 理素裳星环流
