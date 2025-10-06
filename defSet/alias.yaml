@@ -655,3 +655,36 @@ PeregrineSword_AstralRing:
   - 李素裳3
   - 李大枕头2
   # - 理素裳星环流
+
+# 8.3
+HeliaReborn:
+  - 赫丽娅3
+  - 机赫
+  - 机甲赫丽娅
+  - 龙骑士
+  - s赫
+  - 复仇鬼
+HeliaReborn_AstralRing:
+  - 赫丽娅4
+  - 机赫星环流
+  - 机甲赫丽娅2
+  - 机甲赫丽娅星环流
+  - 龙骑士星环流
+  - s赫星环流
+  - 复仇鬼2
+  - 复仇鬼星环流
+
+# 8.4
+CoralieDragon:
+  - 科拉莉3
+  - 龙科
+  - 龙科拉莉
+  - 魔龙
+CoralieDragon_AstralRing:
+  - 科拉莉4
+  - 龙科2
+  - 龙科星环流
+  - 龙科拉莉2
+  - 龙科拉莉星环流
+  - 魔龙2
+  - 魔龙星环流
