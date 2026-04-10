@@ -25,6 +25,8 @@ Refrigerator:
 Silverwing:
   - 次生银翼
   - 大鸭鸭
+  - 次生银翼非星环流
+  - 大鸭鸭非星环流
 Serenade:
   - 第六夜想曲
   - 冰卡
@@ -776,3 +778,10 @@ TheresaLuna_AstralRing:
   - 大月下星环流
   - 月下誓约4
   - 大月下4
+
+# 8.8
+Silverwing_AstralRing:
+  - 次生银翼星环流
+  - 大鸭鸭星环流
+  - 次生银翼2
+  - 大鸭鸭2
