@@ -26,22 +26,19 @@ export default class letu extends plugin {
             return false
         }
         let char = alias.get(charName)
-        // 嗯写
-        if (fs.existsSync(`${this.path}/${char}.jpg`)) {
-            await this.e.reply(segment.image(`${this.path}/${char}.jpg`))
-            return
-        } else if (fs.existsSync(`${this.path}/${char}.jpeg`)) {
-            await this.e.reply(segment.image(`${this.path}/${char}.jpeg`))
-            return
-        } else if (fs.existsSync(`${this.path}/${char}.png`)) {
-            await this.e.reply(segment.image(`${this.path}/${char}.png`))
-            return
-        } else if (fs.existsSync(`${this.path}/${char}.gif`)) {
-            await this.e.reply(segment.image(`${this.path}/${char}.gif`))
-            return
-        } else if (fs.existsSync(`${this.path}/${char}.webp`)) {
-            await this.e.reply(segment.image(`${this.path}/${char}.webp`))
-            return
+        const extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+        const paths = [
+            `${this.path}/${char}`,
+            `${this.path}/data/${char}`
+        ]
+
+        for (const basePath of paths) {
+            for (const ext of extensions) {
+                const filePath = `${basePath}.${ext}`
+                if (fs.existsSync(filePath)) {
+                    return await this.e.reply(segment.image(filePath))
+                }
+            }
         }
 
         this.e.reply(`找不到攻略图哦，试试[#更新乐土攻略]？`)

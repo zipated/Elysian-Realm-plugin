@@ -4,7 +4,7 @@
 
 攻略图来自米游社[月光中心official](https://www.miyoushe.com/bh3/accountCenter/postList?id=5625196)
 
-图片来自[MskTmi/ElysianRealm-Data](https://github.com/MskTmi/ElysianRealm-Data)
+图源来自[MskTmi/ElysianRealm-Data](https://github.com/MskTmi/ElysianRealm-Data)
 
 目前确定可用功能
 
