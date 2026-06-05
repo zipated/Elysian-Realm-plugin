@@ -14,7 +14,7 @@
 
 </details>
 
-<details><summary>#更新/重装乐土攻略(ghproxy) （仅主人可使用</summary>
+<details><summary>#更新/重装乐土攻略(ghproxy) （仅主人可使用）</summary>
 
 &ensp;&ensp;ghproxy在未安装或重新安装乐土攻略时可用
 
@@ -58,6 +58,14 @@ git clone --depth=1 https://gitee.com/zipated/Elysian-Realm-plugin.git ./plugins
 乐土角色名对照表参考[ElysianRealm-Data](https://github.com/MskTmi/ElysianRealm-Data)
 
 （应该能用吧（嗯！
+
+--------------------------------------------
+
+<details><summary>TODO</summary>
+
+- [ ] 适配新版数据meta
+
+</details>
 
 --------------------------------------------
 
