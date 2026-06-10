@@ -3,6 +3,8 @@ import { createRequire } from 'module'
 import _ from 'lodash'
 import fs from 'fs'
 import { Restart } from '../../other/restart.js'
+import common from '../../../lib/common/common.js'
+import setting from '../utils/setting.js'
 
 const _path = process.cwd()
 const require = createRequire(import.meta.url)
@@ -27,7 +29,7 @@ export class Update extends plugin {
       priority: -101,
       rule: [
         {
-          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))(.*)?$`,
+          reg: `^#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))(?!插件)(.*)?$`,
           fnc: 'updateRes',
           desc: '【#管理】更新素材'
         },
@@ -36,70 +38,114 @@ export class Update extends plugin {
           fnc: 'update',
           desc: '【#管理】插件更新'
         }
-      ]
+      ],
+      task: {
+        name: '定时更新乐土攻略',
+        cron: setting.getConfig('config').updateCron,
+        fnc: () => this.scheduledUpdate()
+      }
     })
   }
 
-  async updateRes (e) {
+  async decideAction (e) {
     if (!await checkAuth(e)) {
-      return true
+      return null
     }
+    const resourcesPath = `${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/`
     let isForce = e.msg.includes('强制')
     let isReinstall = e.msg.includes('重装')
-    let ghproxy = e.msg.replace(/#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))/, '').trim()
-    let command = ''
-    let isInstalled = fs.existsSync(`${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/`)
+    let customPrefix = e.msg.replace(/#*(崩坏3|bh3|崩3|崩崩崩)?((强制)?(更新|重装)乐土攻略|乐土攻略(强制)?(更新|重装))/, '').trim()
+    let isInstalled = fs.existsSync(resourcesPath)
     if (isReinstall && isInstalled) {
       try {
-        fs.rmSync(`${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data`, { recursive: true, force: true })
+        fs.rmSync(resourcesPath, { recursive: true, force: true })
         e.reply(`开始重新安装乐土攻略`)
         isInstalled = false
       } catch (err) {
         e.reply(`乐土攻略重装失败:\n ${err.message}`)
-        return false
+        return { type: 'skip' }
       }
     }
     if (isInstalled) {
       e.reply('开始尝试更新，请耐心等待~')
-      command = 'git pull'
+      let command = 'git pull'
       if (isForce) {
-        command = 'git  checkout . && git  pull'
+        command = 'git checkout . && git pull'
       }
-      exec(command, { cwd: `${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/` }, function (error, stdout, stderr) {
-        console.log(stdout)
-        if (/(Already up[ -]to[ -]date|已经是最新的)/.test(stdout)) {
-          e.reply('目前所有攻略图片都已经是最新了~')
-          return true
-        }
-        let numRet = /(\d*) files changed,/.exec(stdout)
-        if (numRet && numRet[1]) {
-          e.reply(`报告主人，更新成功，此次更新了${numRet[1]}个图片~`)
-          return true
-        }
-        if (error) {
-          e.reply('更新失败！\nError code: ' + error.code + '\n' + error.stack + '\n 请稍后重试。')
-        } else {
-          e.reply('乐土攻略图片更新成功~')
-        }
-      })
+      return { type: 'update', cwd: resourcesPath, command }
     } else {
       let url = 'https://github.com/MskTmi/ElysianRealm-Data.git'
-      if (ghproxy){
-        if (e.msg === 'ghproxy') {
+      if (customPrefix) {
+        if (customPrefix=== 'ghproxy') {
           url = 'https://ghfast.top/https://github.com/MskTmi/ElysianRealm-Data.git'
         } else {
-          url = ghproxy.endsWith('/') ? `${ghproxy}MskTmi/ElysianRealm-Data.git` : `${ghproxy}/MskTmi/ElysianRealm-Data.git`
+          url = customPrefix.endsWith('/') ? `${customPrefix}MskTmi/ElysianRealm-Data.git` : `${customPrefix}/MskTmi/ElysianRealm-Data.git`
         }
       }
-      command = `git clone ${url} "${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data" --depth=1`
+      let command = `git clone ${url} "${resourcesPath}" --depth=1`
       e.reply('开始尝试安装乐土攻略图片，可能会需要一段时间，请耐心等待~')
-      exec(command, function (error, stdout, stderr) {
-        if (error) {
-          e.reply('乐土攻略图片安装失败！\nError code: ' + error.code + '\n' + error.stack + '\n 请稍后重试。')
-        } else {
-          e.reply('乐土攻略图片安装成功！您后续也可以通过 #乐土攻略更新 命令来更新图像')
-        }
-      })
+      return { type: 'install', command }
+    }
+  }
+
+  async executeAction (action) {
+    if (action.type === 'update') {
+      return this.execSync(action.command, { cwd: action.cwd })
+    } else if (action.type === 'install') {
+      return this.execSync(action.command)
+    }
+    return { error: new Error('Unknown action type'), stdout: '', stderr: '' }
+  }
+
+  handleResult (result, e) {
+    console.log(result.stdout)
+    if (/(Already up[ -]to[ -]date|已经是最新的)/.test(result.stdout)) {
+      e.reply('目前所有攻略图片都已经是最新了~')
+      return true
+    }
+    let numRet = /(\d*) files changed,/.exec(result.stdout)
+    if (numRet && numRet[1]) {
+      e.reply(`报告主人，更新成功，此次更新了${numRet[1]}个文件~`)
+      return true
+    }
+    if (result.error) {
+      e.reply('更新失败！\nError code: ' + result.error.code + '\n' + result.error.stack + '\n 请稍后重试。')
+    } else {
+      e.reply('乐土攻略图片更新成功~')
+    }
+    return true
+  }
+
+  async updateRes (e) {
+    const action = await this.decideAction(e)
+    if (!action || action.type === 'skip') return true
+
+    const result = await this.executeAction(action)
+
+    if (action.type === 'update') {
+      return this.handleResult(result, e)
+    } else if (action.type === 'install') {
+      if (result.error) {
+        e.reply('乐土攻略图片安装失败！\nError code: ' + result.error.code + '\n' + result.error.stack + '\n 请稍后重试。')
+      } else {
+        e.reply('乐土攻略图片安装成功！您后续也可以通过 #乐土攻略更新 命令来更新图像')
+      }
+      return true
+    }
+    return true
+  }
+
+  async scheduledUpdate () {
+    const resourcesPath = `${_path}/plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/`
+    const action = { type: 'update', cwd: resourcesPath, command: 'git pull' }
+    const result = await this.executeAction(action)
+    if (result.error) return logger.error('乐土图片自动更新失败：\nError code: ' + result.error.code + '\n' + result.error.stack)
+    if (!(/(Already up[ -]to[ -]date|已经是最新的)/.test(result.stdout))) {
+      let numRet = /(\d*) files changed,/.exec(result.stdout)
+      if (numRet && numRet[1]) {
+        logger.info(`乐土图片自动更新成功，此次更新了${numRet[1]}个文件~`)
+        return true
+      }
     }
     return true
   }
@@ -107,11 +153,12 @@ export class Update extends plugin {
   /**
    * 异步执行git相关命令
    * @param {string} cmd git命令
+   * @param {object} options exec选项（cwd等）
    * @returns
    */
-  async execSync (cmd) {
+  async execSync (cmd, options = {}) {
     return new Promise((resolve, reject) => {
-      exec(cmd, { windowsHide: true }, (error, stdout, stderr) => {
+      exec(cmd, { windowsHide: true, ...options }, (error, stdout, stderr) => {
         resolve({ error, stdout, stderr })
       })
     })
@@ -122,8 +169,8 @@ export class Update extends plugin {
    * @returns
    */
   async checkGit () {
-    let ret = await execSync('git --version', { encoding: 'utf-8' })
-    if (!ret || !ret.includes('git version')) {
+    let ret = await this.execSync('git --version', { encoding: 'utf-8' })
+    if (!ret.stdout || !ret.stdout.includes('git version')) {
       await this.reply('请先安装git')
       return false
     }
@@ -212,7 +259,8 @@ export class Update extends plugin {
 
     let logAll
     try {
-      logAll = await execSync(cm, { encoding: 'utf-8' })
+      let ret = await this.execSync(cm, { encoding: 'utf-8' })
+      logAll = ret.stdout
     } catch (error) {
       logger.error(error.toString())
       this.reply(error.toString())
@@ -250,8 +298,8 @@ export class Update extends plugin {
   async getcommitId (plugin = '') {
     let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`
 
-    let commitId = await execSync(cm, { encoding: 'utf-8' })
-    commitId = _.trim(commitId)
+    let commitId = await this.execSync(cm, { encoding: 'utf-8' })
+    commitId = _.trim(commitId.stdout)
 
     return commitId
   }
@@ -266,8 +314,8 @@ export class Update extends plugin {
 
     let time = ''
     try {
-      time = await execSync(cm, { encoding: 'utf-8' })
-      time = _.trim(time)
+      time = await this.execSync(cm, { encoding: 'utf-8' })
+      time = _.trim(time.stdout)
     } catch (error) {
       logger.error(error.toString())
       time = '获取时间失败'
@@ -318,18 +366,5 @@ export class Update extends plugin {
     }
 
     await this.reply([errMsg, stdout])
-  }
-
-  /**
-   * 检查git是否安装
-   * @returns
-   */
-  async checkGit () {
-    let ret = await execSync('git --version', { encoding: 'utf-8' })
-    if (!ret || !ret.includes('git version')) {
-      await this.reply('请先安装git')
-      return false
-    }
-    return true
   }
 }

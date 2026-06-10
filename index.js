@@ -21,6 +21,13 @@ logger.info('遵循能用就行原则')
 logger.info('摸了')
 logger.info('-------------------')
 
+const { default: metaManager } = await import('./utils/meta.js')
+if (metaManager.checkAvailability()) {
+  const metaDir = './plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/meta'
+  const metaFiles = fs.readdirSync(metaDir).filter(f => f.endsWith('.json'))
+  logger.info(`[乐土攻略插件][meta] 已启用，${metaFiles.length} 个角色元数据已加载`)
+}
+
 files.forEach((file) => {
   ret.push(import(`./apps/${file}`))
 })

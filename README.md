@@ -59,11 +59,15 @@ git clone --depth=1 https://gitee.com/zipated/Elysian-Realm-plugin.git ./plugins
 
 （应该能用吧（嗯！
 
+## 设置定时更新攻略
+
+修改插件目录下`config/config.yaml`的`updateCron`项。默认每周三和周日早八尝试更新一次。调整为0或留空时关闭定时更新功能。配置后需重启Yunzai生效。
+
 --------------------------------------------
 
 <details><summary>TODO</summary>
 
-- [ ] 适配新版数据meta
+- [x] 适配新版数据meta
 
 </details>
 

@@ -1,4 +1,5 @@
 import setting from './setting.js'
+import metaManager from './meta.js'
 import _ from 'lodash'
 
 export default new class {
@@ -14,14 +15,28 @@ export default new class {
     const roleName = _.findKey(aliasList, alias => alias.includes(name))
     if (roleName) {
       return roleName
-    } else {
-      logger.error('[乐土角色别名]未找到角色')
-      return false
     }
+    // meta 别名查询
+    const metaAliasMap = metaManager.getMetaAliasMap()
+    if (metaAliasMap && metaAliasMap[name]) {
+      return metaAliasMap[name]
+    }
+    logger.error('[乐土角色别名]未找到角色')
+    return false
   }
   
   getAllName () {
-    // 读取角色文件
-    return { ...setting.getConfig('alias') }
+    const baseList = { ...setting.getConfig('alias') }
+    const metaAliasMap = metaManager.getMetaAliasMap()
+    if (metaAliasMap) {
+      for (const [key, val] of Object.entries(metaAliasMap)) {
+        if (!baseList[val]) {
+          baseList[val] = [key]
+        } else if (!baseList[val].includes(key)) {
+          baseList[val].push(key)
+        }
+      }
+    }
+    return baseList
   }
 }()

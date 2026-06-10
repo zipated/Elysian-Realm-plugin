@@ -24,7 +24,7 @@ class Setting {
     const files = fs.readdirSync(this.defPath).filter(file => file.endsWith('.yaml'))
     for (let file of files) {
       if (!fs.existsSync(`${this.configPath}${file}`)) {
-        if (file = `alias.yaml`){
+        if (file == `alias.yaml`){
           fs.writeFile(`${this.configPath}${file}`, '', (err) => {})
         } else {
           fs.copyFileSync(`${this.defPath}${file}`, `${this.configPath}${file}`)
@@ -117,7 +117,7 @@ class Setting {
     else {
       try {
         if (!fs.existsSync(`${this.configPath}${app}.yaml`)) {
-          if (file = `alias.yaml`){
+          if (app == `alias.yaml`){
             fs.writeFile(`${this.configPath}${app}.yaml`, '', (err) => {})
           } else {
             fs.copyFileSync(`${this.defPath}${app}.yaml`, `${this.configPath}${app}.yaml`)
