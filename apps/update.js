@@ -76,9 +76,9 @@ export class Update extends plugin {
     } else {
       let url = 'https://github.com/MskTmi/ElysianRealm-Data.git'
       if (customPrefix) {
-        if (customPrefix=== 'ghproxy') {
+        if (customPrefix === 'ghproxy') {
           url = 'https://ghfast.top/https://github.com/MskTmi/ElysianRealm-Data.git'
-        } else {
+        } else if (/^https?:\/\/.+/i.test(customPrefix)) {
           url = customPrefix.endsWith('/') ? `${customPrefix}MskTmi/ElysianRealm-Data.git` : `${customPrefix}/MskTmi/ElysianRealm-Data.git`
         }
       }
@@ -211,10 +211,10 @@ export class Update extends plugin {
    * @returns
    */
   async runUpdate (isForce) {
-    const _path = './plugins/Elysian-Realm-plugin/'
-    let command = `git -C ${_path} pull --no-rebase`
+    const pluginPath = './plugins/Elysian-Realm-plugin/'
+    let command = `git -C ${pluginPath} pull --no-rebase`
     if (isForce) {
-      command = `git -C ${_path} fetch --all && git -C ${_path} reset --hard HEAD`
+      command = `git -C ${pluginPath} fetch --all && git -C ${pluginPath} reset --hard HEAD`
       this.e.reply('正在执行强制更新操作，请稍等')
     } else {
       this.e.reply('正在执行更新操作，请稍等')

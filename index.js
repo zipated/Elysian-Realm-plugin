@@ -23,9 +23,9 @@ logger.info('-------------------')
 
 const { default: metaManager } = await import('./utils/meta.js')
 if (metaManager.checkAvailability()) {
-  const metaDir = './plugins/Elysian-Realm-plugin/resources/ElysianRealm-Data/meta'
-  const metaFiles = fs.readdirSync(metaDir).filter(f => f.endsWith('.json'))
-  logger.info(`[乐土攻略插件][meta] 已启用，${metaFiles.length} 个角色元数据已加载`)
+  const keywordMap = metaManager.getKeywordMap()
+  const kwCount = keywordMap ? Object.keys(keywordMap).length : 0
+  logger.info(`[乐土攻略插件][meta] 已启用，${kwCount} 个关键词映射已加载`)
 }
 
 files.forEach((file) => {

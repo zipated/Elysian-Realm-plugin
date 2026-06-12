@@ -26,6 +26,10 @@ export default class letu extends plugin {
             return false
         }
         let char = alias.get(charName)
+        if (!char) {
+            this.e.reply(`找不到对应的攻略哦，试试[#更新乐土攻略]？`)
+            return true
+        }
         const extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
         const paths = [
             `${this.path}/${char}`,
